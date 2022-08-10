@@ -1,25 +1,36 @@
+//Canvas
 var canvas = document.getElementById("canvasArea");
+//Canvas 2D
 var ctx = canvas.getContext("2d");
+//ball
 var ballRadius = 10;
+//paddle
 var paddleHeight = 10;
 var paddleWidth = 75;
 var paddleX = (canvas.width - paddleWidth) / 2;
+var paddleY = (canvas.height - paddleHeight) / 2;
+//key controls
 let rightPressed = false;
 let leftPressed = false;
 let upPressed = false;
+//position
 let x = canvas.width/2;
 let y = canvas.height-30;
 let dx = 2;
 let dy = -2;
+//bricks
 var brickRowCount = 1;
 var brickColumnCount = 6;
 var brickWidth = 75;
 var brickHeight = 10;
 var brickPadding = 5;
-var brickOffsetTop = 1;
+var brickOffsetTop = 5;
 var brickOffsetLeft = 1;
+var brickOffsetRight = 1; //new
+//score and lives
 let score = 0;
 let lives = 3;
+// startup
 
 
 //Bricks + loop
@@ -32,6 +43,7 @@ for (var c = 0; c < brickColumnCount; c++) {
 }
 //Drawing bricks
 function drawBricks() {
+    //brick layer loop
     for (var c = 0; c < brickColumnCount; c++) {
         for (var r = 0; r < brickRowCount; r++) {
                 if (bricks[c][r].status === 1) {
@@ -41,7 +53,7 @@ function drawBricks() {
                 bricks[c][r].y = brickY;
                 ctx.beginPath();
                 ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                ctx.fillStyle = "#0095DD";
+                ctx.fillStyle = "#616161";
                 ctx.fill();
                 ctx.closePath();
             }
@@ -49,23 +61,9 @@ function drawBricks() {
     }
 }
 
-function drawLives() {
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.fillText("Lives: "+lives, canvas.width-65, 20);
-}
-
 //Game controls
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
-document.addEventListener("mousemove", mouseMoveHandler, false);
-
-function mouseMoveHandler(e) {
-    var relativeX = e.clientX - canvas.offsetLeft;
-    if(relativeX > 0 && relativeX < canvas.width) {
-        paddleX = relativeX - paddleWidth / 2;
-    }
-}
 
 function keyDownHandler(e) {
     if (e.key === "Right" || e.key === "ArrowRight") {
@@ -87,7 +85,9 @@ function keyUpHandler(e) {
     }
 }
 
+
 function collissionDetection() {
+    //brick layer loop
     for (let c = 0; c < brickColumnCount; c++) {
         for (let r = 0; r < brickRowCount; r++) {
             //Checks status 1
@@ -109,33 +109,42 @@ function collissionDetection() {
     }
 }
 
-function drawball() {
+//Drawing ball
+function drawBall() {
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = "green";
+    ctx.fillStyle = "#780000";
     ctx.fill();
     ctx.closePath();
 }
 
+//Drawing paddle
 function drawPaddle() {
     ctx.beginPath();
     ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
-    ctx.fillStyle = "#0095DD";
+    ctx.fillStyle = "#FF0000";
     ctx.fill();
     ctx.closePath();
 }
 
-//font() size, fillStyle() color, fillText() visible text
+//Drawing score - font() size, fillStyle() color, fillText() visible text
 function drawScore() {
     ctx.font = "16px Arial";
     ctx.fillStyle = "#0095DD";
-    ctx.fillText(`Score: ${score}`, 8, 20);
+    ctx.fillText(`Score: ${score}`, 8, 300);
+}
+
+//Drawing lives
+function drawLives() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Lives: "+lives, canvas.width-65, 300);
 }
 
 //Making the draws visibly
 function draw() {
     ctx.clearRect (0, 0, canvas.width, canvas.height);
-    drawball();
+    drawBall();
     drawPaddle();
     drawBricks();
     collissionDetection();
@@ -157,25 +166,25 @@ function draw() {
             alert("GAME OVER");
             document.location.reload();
         }
-        // if lives lost, faster ball
         else {
             x = canvas.width/2;
             y = canvas.height-30;
-            dx = 3;
-            dy = 3;
+            // ballspeed
+            dx = 2;
+            dy = 2;
             paddleX = (canvas.width-paddleWidth)/2;
         }
     }
 }
     //Control movement
     if(rightPressed && paddleX < canvas.width-paddleWidth) {
-        paddleX += 7;
+        paddleX += 4;
     }
     else if (leftPressed && paddleX > 0) {
-        paddleX -= 7;
+        paddleX -= 4;
     }
-    if (upPressed && paddleX < canvas.height-paddleWidth) {
-        paddleX += 7;
+    if (upPressed && paddleY < canvas.height-paddleHeight) {
+        paddleY += 4;
     }
 
     x += dx;
