@@ -20,13 +20,13 @@ let dx = 2;
 let dy = -2;
 //bricks
 var brickRowCount = 1;
-var brickColumnCount = 6;
+var brickColumnCount = 10;
 var brickWidth = 75;
 var brickHeight = 10;
 var brickPadding = 5;
 var brickOffsetTop = 5;
 var brickOffsetLeft = 1;
-var brickOffsetRight = 1; //new
+var wbrick = 1; //new
 //score and lives
 let score = 0;
 let lives = 3;
@@ -155,7 +155,7 @@ function draw() {
     }
     if(y + dy < ballRadius) {
         dy = -dy;
-    } else if (y + dy > canvas.height-ballRadius) {
+    } else if (y + dy > canvas.height - ballRadius) {
         if(x > paddleX && x < paddleX + paddleWidth) {
             dy = -dy;
         } 
@@ -172,18 +172,18 @@ function draw() {
             // ballspeed
             dx = 2;
             dy = 2;
-            paddleX = (canvas.width-paddleWidth)/2;
+            paddleX = (canvas.width - paddleWidth) / 2;
         }
     }
 }
     //Control movement
-    if(rightPressed && paddleX < canvas.width-paddleWidth) {
+    if(rightPressed && paddleX < canvas.width - paddleWidth) {
         paddleX += 4;
     }
     else if (leftPressed && paddleX > 0) {
         paddleX -= 4;
     }
-    if (upPressed && paddleY < canvas.height-paddleHeight) {
+    if (upPressed && paddleY < canvas.height - paddleHeight) {
         paddleY += 4;
     }
 
