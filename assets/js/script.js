@@ -18,34 +18,44 @@ let x = canvas.width/2;
 let y = canvas.height-30;
 let dx = 2;
 let dy = -2;
-//bricks
+//brick amounts
 var brickRowCount = 1;
 var brickColumnCount = 10;
+//brick measures
 var brickWidth = 75;
 var brickHeight = 10;
 var brickPadding = 5;
+//brick position
 var brickOffsetTop = 5;
 var brickOffsetLeft = 1;
-var wbrick = 1; //new
+//Test
+var wbrickRowCount = 1;
+var wbrickColumnCount = 10;
+var wbrickWidth = 10;
+var wbrickHeight = 75;
+var wbrickPadding = 5;
+var wbrickOffsetTop = 15;
+var wbrickOffsetLeft = 1;
+
 //score and lives
 let score = 0;
 let lives = 3;
 // startup
 
 
-//Bricks + loop
+//Bricks loop
 var bricks = [];
-for (var c = 0; c < brickColumnCount; c++) {
+for (var c = 0; c < brickColumnCount && wbrickColumnCount; c++) {
     bricks[c] = [];
-    for (var r = 0; r < brickRowCount; r++) {
+    for (var r = 0; r < brickRowCount && wbrickRowCount; r++) {
         bricks[c][r] = { x: 0, y: 0, status: 1 };
     }
 }
-//Drawing bricks
+
 function drawBricks() {
     //brick layer loop
-    for (var c = 0; c < brickColumnCount; c++) {
-        for (var r = 0; r < brickRowCount; r++) {
+    for (var c = 0; c < brickColumnCount && wbrickColumnCount; c++) {
+        for (var r = 0; r < brickRowCount && wbrickRowCount; r++) {
                 if (bricks[c][r].status === 1) {
                 var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
                 var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
@@ -143,7 +153,9 @@ function drawLives() {
 
 //Making the draws visibly
 function draw() {
+    //Makes the colors disappear
     ctx.clearRect (0, 0, canvas.width, canvas.height);
+    //adds functions
     drawBall();
     drawPaddle();
     drawBricks();
