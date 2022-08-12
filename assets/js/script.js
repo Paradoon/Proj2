@@ -13,6 +13,7 @@ var paddleY = (canvas.height - paddleHeight) / 2;
 let rightPressed = false;
 let leftPressed = false;
 let upPressed = false;
+let downPressed = false;
 //position
 let x = canvas.width/2;
 let y = canvas.height-30;
@@ -82,6 +83,8 @@ function keyDownHandler(e) {
         leftPressed = true;
     } else if (e.key === "Up" || e.key === "ArrowUp") {
         upPressed = true;
+    } else if (e.key === "Down" || e.key === "ArrowDown") {
+        downPressed = true;
     }
 }
 
@@ -92,6 +95,8 @@ function keyUpHandler(e) {
         leftPressed = false;
     } else if (e.key === "Up" || e.key === "ArrowUp") {
         upPressed = false;
+    } else if (e.key === "Down" || e.key === "ArrowDown") {
+        downPressed = false;
     }
 }
 
@@ -131,7 +136,7 @@ function drawBall() {
 //Drawing paddle
 function drawPaddle() {
     ctx.beginPath();
-    ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+    ctx.rect(paddleX, canvas.height - paddleY, paddleWidth, paddleHeight);
     ctx.fillStyle = "#FF0000";
     ctx.fill();
     ctx.closePath();
@@ -197,6 +202,8 @@ function draw() {
     }
     if (upPressed && paddleY < canvas.height - paddleHeight) {
         paddleY += 4;
+    } else if (downPressed && paddleY > 0) {
+        paddleY -= 4;
     }
 
     x += dx;
